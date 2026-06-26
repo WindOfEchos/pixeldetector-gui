@@ -28,7 +28,7 @@ Main options:
 - `Reduce palette`: reduce colors after resizing.
 - `Max colors`: palette limit, for example `16`, `32`, or `128`.
 - `Scale`: use `Auto` or set the original enlargement manually, for example `4x`.
-- `Downscale method`: `Fast median` for speed, `Quality k-means` for slower detailed cleanup.
+- `Downscale method`: `Quality k-means` is the default for detailed cleanup. Use `Fast median` for speed.
 
 ## Command Line
 
@@ -39,7 +39,7 @@ python pixeldetector.py -i input.png -o output.png
 Palette example:
 
 ```powershell
-python pixeldetector.py -i input.jpg -o output.png -p -m 32 --method fast --palette-method fixed
+python pixeldetector.py -i input.jpg -o output.png -p -m 32 --method quality --palette-method auto
 ```
 
 ## Build Windows EXE

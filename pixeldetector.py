@@ -63,7 +63,7 @@ def downscale_image(image: Image, width: int, height: int, centroids: int, metho
     return fast_downscale(image, width, height)
 
 
-def pixel_detect(image: Image, centroids: int = 2, separate_xy_scale: bool = False, downscale_method: str = "fast"):
+def pixel_detect(image: Image, centroids: int = 2, separate_xy_scale: bool = False, downscale_method: str = "quality"):
     # Thanks to https://github.com/paultron for optimizing my garbage code 
     # I swapped the axis so they accurately reflect the horizontal and vertical scaling factor for images with uneven ratios
 
@@ -149,8 +149,8 @@ def repair_image(
     scale: int | None = None,
     centroids: int = 2,
     separate_xy_scale: bool = False,
-    downscale_method: str = "fast",
-    palette_method: str = "fixed",
+    downscale_method: str = "quality",
+    palette_method: str = "auto",
 ):
     if max_colors < 1:
         raise ValueError("Max colors must be 1 or greater")
@@ -234,8 +234,8 @@ def process_image(
     scale: int | None = None,
     centroids: int = 2,
     separate_xy_scale: bool = False,
-    downscale_method: str = "fast",
-    palette_method: str = "fixed",
+    downscale_method: str = "quality",
+    palette_method: str = "auto",
 ):
     if not os.path.isfile(input_path):
         raise FileNotFoundError(f"Input image not found: {input_path}")
@@ -259,8 +259,8 @@ def main():
     ap.add_argument("-o", "--output", required=False, default="output.png", help="Path to save output image")
     ap.add_argument("-m", "--max", required=False, type=int, default=128, help="Max colors for computation, more = slower")
     ap.add_argument("-p", "--palette", required=False, action="store_true", help="Automatically reduce the image to predicted color palette")
-    ap.add_argument("--method", choices=DOWNSCALE_METHODS, default="fast", help="Downscale method")
-    ap.add_argument("--palette-method", choices=PALETTE_METHODS, default="fixed", help="Palette reduction method")
+    ap.add_argument("--method", choices=DOWNSCALE_METHODS, default="quality", help="Downscale method")
+    ap.add_argument("--palette-method", choices=PALETTE_METHODS, default="auto", help="Palette reduction method")
     args = vars(ap.parse_args())
 
     stats = process_image(
